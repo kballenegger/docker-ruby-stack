@@ -70,6 +70,7 @@ start_nginx () {
 }
 
 
+
 # convenience functions to start / stop everything, clean up
 start_all () {
     services="mongo memcached rack nginx"
@@ -86,3 +87,17 @@ stop_all () {
 clean_up () {
     sudo docker ps -a -q | xargs sudo docker rm
 }
+
+
+
+build_all () {
+    services="mongo memcached rack nginx"
+    for service in $(echo $services); do
+        sudo docker build -rm -t $service - < "$service".docker
+    done
+}
+
+
+
+
+
