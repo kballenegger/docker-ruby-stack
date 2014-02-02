@@ -6,7 +6,7 @@ start_mongo () {
     mongo_cid=$(sudo docker run \
         -d \
         `# [commented out] -p 27017:27017` \
-        -v `readlink -f /mongo`:/mongo \
+        -v `readlink -f ./mongo`:/mongo \
         -v /mongo:/data \
         -name mongo \
         mongo)
