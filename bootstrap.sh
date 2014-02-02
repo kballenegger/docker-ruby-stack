@@ -38,7 +38,7 @@ start_rack () {
     rack_cid=$(sudo docker run \
         -d \
         `# [commented out] -p 80:80` \
-        -v `readlink -f .`:/app \
+        -v `readlink -f ./app`:/app \
         -link mongo:mongo \
         -link memcached:memcached \
         -e "env=$env" \
@@ -61,6 +61,7 @@ start_nginx () {
         -p 80:80 \
         -v `readlink -f ./docker/nginx`:/nginx \
         -v `readlink -f ./static`:/app \
+        -v `readlink -f ./certs`:/certs \
         -link app:app \
         -name nginx \
         nginx)
