@@ -18,4 +18,4 @@ RUN touch /etc/yum.repos.d/mongodb.repo &&\
 
 EXPOSE 27017
 
-ENTRYPOINT ["mongod", "-f", "/data/mongod.conf"]
+ENTRYPOINT ["mongod", "-f", "/mongo/mongod.conf"]
