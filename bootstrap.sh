@@ -96,6 +96,15 @@ clean_up () {
 }
 
 
+restart_app () {
+    sudo docker kill $nginx_cid
+    sudo docker rm $nginx_cid
+    sudo docker kill $rack_cid
+    sudo docker rm $rack_cid
+    start_rack
+    start_nginx
+}
+
 
 build_all () {
     services="mongo memcached rack nginx"
