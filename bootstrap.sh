@@ -13,6 +13,9 @@ start_mongo () {
     if [ $? -eq 0 ]; then
         export mongo_cid="$mongo_cid"
         echo "Started mongo in container [\$mongo_cid] $mongo_cid".
+        echo -n "Sleeping to let mongo start... "
+        sleep 3
+        echo "done."
     else
         echo $mongo_cid; return 1
     fi
