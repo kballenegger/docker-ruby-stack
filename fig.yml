@@ -10,7 +10,7 @@ memcached:
     build: builds/memcached
 
 app:
-    build: builds/rack
+    build: builds/ruby
     volumes:
         - ./app:/app
     links:
@@ -20,7 +20,7 @@ app:
     command: 'export MONGODB_URI="mongodb://$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT"; cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start'
 
 nginx:
-    build: build/nginx
+    build: builds/nginx
     volumes:
         - ./conf/nginx:/nginx
         - ./static:/app
