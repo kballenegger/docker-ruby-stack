@@ -1,26 +1,26 @@
 # quoth stack
 
 mongo:
-    build: mongo.docker
+    build: builds/mongo
     volumes:
         - ./mongo:/data
         - ./conf/mongo:/mongo
 
 memcached:
-    build: memcached.docker
+    build: builds/memcached
 
 app:
-    build: rack.docker
+    build: builds/rack
     volumes:
         - ./app:/app
     links:
         - mongo
         - memcached 
-    expose: 80
+    ports: [ 80 ]
     command: 'export MONGODB_URI="mongodb://$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT"; cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start'
 
 nginx:
-    build: nginx.docker
+    build: build/nginx
     volumes:
         - ./conf/nginx:/nginx
         - ./static:/app
