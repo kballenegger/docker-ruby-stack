@@ -8,7 +8,7 @@ start_mongo () {
         `# [commented out] -p 27017:27017` \
         -v `readlink -f ./docker/mongo`:/mongo \
         -v /mongo:/data \
-        -name mongo \
+        -name mongo-1 \
         mongo)
     if [ $? -eq 0 ]; then
         export mongo_cid="$mongo_cid"
@@ -26,7 +26,7 @@ start_memcached () {
     memcached_cid=$(sudo docker run \
         -d \
         `# [commented out] -p 11211:11211` \
-        -name memcached \
+        -name memcached-1 \
         memcached)
     if [ $? -eq 0 ]; then
         export memcached_cid="$memcached_cid"
@@ -42,13 +42,11 @@ start_rack () {
         -d \
         `# [commented out] -p 80:80` \
         -v `readlink -f ./app`:/app \
-        -link mongo:mongo \
-        -link memcached:memcached \
         -e "env=$env" \
         -expose 80 \
-        -name app \
+        -name app-1 \
         ruby \
-        bash -c -l 'export MONGODB_URI="mongodb://$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT"; cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start')
+        bash -c -l 'export MONGODB_URI="mongodb://mongo.live.docker:27017"; cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start')
     if [ $? -eq 0 ]; then
         export rack_cid="$rack_cid"
         echo "Started app in container [\$rack_cid] $rack_cid".
@@ -65,8 +63,7 @@ start_nginx () {
         -v `readlink -f ./docker/nginx`:/nginx \
         -v `readlink -f ./static`:/app \
         -v `readlink -f ./certs`:/certs \
-        -link app:app \
-        -name nginx \
+        -name nginx-1 \
         nginx)
     if [ $? -eq 0 ]; then
         export nginx_cid="$nginx_cid"
