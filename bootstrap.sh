@@ -46,7 +46,7 @@ start_rack () {
         -expose 80 \
         -name app-1 \
         ruby \
-        bash -c -l 'export MONGODB_URI="mongodb://mongo.live.docker:27017"; cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start')
+        bash -c -l 'export MONGODB_URI="mongodb://mongo-1.mongo.live.docker:27017"; cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start')
     if [ $? -eq 0 ]; then
         export rack_cid="$rack_cid"
         echo "Started app in container [\$rack_cid] $rack_cid".
