@@ -6,7 +6,7 @@ start_mongo () {
     mongo_cid=$(sudo docker run \
         -d \
         `# [commented out] -p 27017:27017` \
-        -v `readlink -f ./docker/mongo`:/mongo \
+        -v `readlink -f ./conf/mongo`:/mongo \
         -v /mongo:/data \
         -name mongo-1 \
         mongo)
@@ -60,7 +60,7 @@ start_nginx () {
     nginx_cid=$(sudo docker run \
         -d \
         -p 80:80 \
-        -v `readlink -f ./docker/nginx`:/nginx \
+        -v `readlink -f ./conf/nginx`:/nginx \
         -v `readlink -f ./static`:/app \
         -v `readlink -f ./certs`:/certs \
         -name nginx-1 \
