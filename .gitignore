@@ -1,4 +1,4 @@
-./mongo
-./app
-./certs
-./static
+/mongo
+/app
+/certs
+/static
