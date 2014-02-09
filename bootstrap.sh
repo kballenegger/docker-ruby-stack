@@ -113,4 +113,13 @@ build_all () {
 
 
 
+# skydock & skydns
+start_skydock () {
+    sudo docker run -d -p 172.17.42.1:53:53/udp -name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain docker
+    sudo docker run -d -v /var/run/docker.sock:/docker.sock -name skydock -link skydns:skydns crosbymichael/skydock -ttl 30 -environment live -s /docker.sock -domain docker
+}
+
+
+
+
 
