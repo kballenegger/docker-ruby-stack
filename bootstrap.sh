@@ -7,7 +7,7 @@ start_mongo () {
         -d \
         `# [commented out] -p 27017:27017` \
         -v `readlink -f ./conf/mongo`:/mongo \
-        -v /mongo:/data \
+        -v `readlink -f ./mongo`:/data \
         -name mongo-1 \
         mongo)
     if [ $? -eq 0 ]; then
