@@ -18,4 +18,4 @@ RUN touch /etc/yum.repos.d/nginx.repo &&\
 
 EXPOSE 80
 
-CMD bash -l /nginx/launch.sh
+CMD nginx -g "daemon off;" -c /nginx/nginx.conf
