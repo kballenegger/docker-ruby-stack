@@ -81,6 +81,7 @@ start_deployer () {
         -v `readlink -f ./conf/deployer/conf.yml`:/auto-deploy-conf.yml \
         -v `readlink -f ./conf/deployer/app`:/app \
         -v `readlink -f /app`:/docker \
+        -v /root/.ssh/id_rsa:/root/.ssh/id_rsa \
         -v `which docker`:`which docker` \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -expose 80 \
