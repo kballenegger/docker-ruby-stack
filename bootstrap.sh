@@ -128,7 +128,7 @@ restart_app () {
 build_all () {
     services="mongo memcached ruby nginx deployer"
     for service in $(echo $services); do
-        sudo docker build -rm -t $service - < "$service".docker
+        sudo docker build -rm -t $service - < builds/"$service"/Dockerfile
     done
 }
 
