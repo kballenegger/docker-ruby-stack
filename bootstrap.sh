@@ -86,7 +86,7 @@ start_deployer () {
         -v /var/run/docker.sock:/var/run/docker.sock \
         -expose 80 \
         -name deployer-1 \
-        ruby \
+        deployer \
         bash -c -l 'cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start')
     if [ $? -eq 0 ]; then
         export rack_cid="$rack_cid"
@@ -126,7 +126,7 @@ restart_app () {
 
 
 build_all () {
-    services="mongo memcached ruby nginx"
+    services="mongo memcached ruby nginx deployer"
     for service in $(echo $services); do
         sudo docker build -rm -t $service - < "$service".docker
     done
