@@ -74,10 +74,28 @@ start_nginx () {
 }
 
 
+# deployer
+start_deployer () {
+    rack_cid=$(sudo docker run \
+        -d \
+        -v `readlink -f ./conf/deployer/conf.yml`:/auto-deploy-conf.yml \
+        -v `readlink -f ./conf/deployer/app`:/app \
+        -expose 80 \
+        -name deployer-1 \
+        ruby \
+        bash -c -l 'cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start')
+    if [ $? -eq 0 ]; then
+        export rack_cid="$rack_cid"
+        echo "Started app in container [\$rack_cid] $rack_cid".
+    else
+        echo $rack_cid; return 1
+    fi
+}
+
 
 # convenience functions to start / stop everything, clean up
 start_all () {
-    services="mongo memcached rack nginx"
+    services="deployer mongo memcached rack nginx"
     for service in $(echo $services); do
         start_$service
     done
@@ -104,7 +122,7 @@ restart_app () {
 
 
 build_all () {
-    services="mongo memcached rack nginx"
+    services="mongo memcached ruby nginx"
     for service in $(echo $services); do
         sudo docker build -rm -t $service - < "$service".docker
     done

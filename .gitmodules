@@ -1,0 +1,3 @@
+[submodule "conf/deployer/app"]
+	path = conf/deployer/app
+	url = git@github.com:kballenegger/docker-auto-deploy.git
