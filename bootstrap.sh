@@ -82,7 +82,6 @@ start_deployer () {
         -v `readlink -f ./conf/deployer/app`:/app \
         -v `readlink -f /app`:/docker \
         -v `which docker`:`which docker` \
-        -v `which git`:`which git` \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -expose 80 \
         -name deployer-1 \
