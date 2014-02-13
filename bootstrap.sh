@@ -80,12 +80,14 @@ start_deployer () {
         -d \
         -v `readlink -f ./conf/deployer/conf.yml`:/auto-deploy-conf.yml \
         -v `readlink -f ./conf/deployer/app`:/app \
+        -v `readlink -f /app`:/docker \
+        -v /root/.ssh:/root/.ssh \
         -v `which docker`:`which docker` \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -expose 80 \
         -e "env=$env" \
         -name deployer-1 \
-        ruby \
+        deployer \
         bash -c -l 'cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start')
     if [ $? -eq 0 ]; then
         export rack_cid="$rack_cid"
@@ -125,9 +127,9 @@ restart_app () {
 
 
 build_all () {
-    services="mongo memcached ruby nginx"
+    services="mongo memcached ruby nginx deployer"
     for service in $(echo $services); do
-        sudo docker build -rm -t $service - < "$service".docker
+        sudo docker build -rm -t $service - < builds/"$service"/Dockerfile
     done
 }
 
