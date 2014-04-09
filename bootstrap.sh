@@ -85,6 +85,7 @@ start_deployer () {
         -v `which docker`:`which docker` \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -expose 80 \
+        -e "env=$env" \
         -name deployer-1 \
         deployer \
         bash -c -l 'cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start')
