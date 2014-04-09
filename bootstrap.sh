@@ -61,7 +61,7 @@ start_nginx () {
         -d \
         -p 80:80 \
         -v `readlink -f ./conf/nginx`:/nginx \
-        -v `readlink -f ./static`:/app \
+        -v `readlink -f ./static/dist`:/app \
         -v `readlink -f ./certs`:/certs \
         -name nginx-1 \
         nginx)
