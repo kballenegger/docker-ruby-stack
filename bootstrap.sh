@@ -114,6 +114,15 @@ clean_up () {
     sudo docker ps -a -q | xargs sudo docker rm
 }
 
+build_static() {
+    # NOTE: this doesn't work. grunt sucks. fuck this.
+    #sudo docker run \
+        #-v `readlink -f ./static`:/app \
+        #-t -i -rm \
+        #damon/grunt \
+        #bash -c 'cd /app && npm install grunt grunt-contrib-livereload && grunt build:dev'
+}
+
 
 restart_app () {
     sudo docker kill $nginx_cid
