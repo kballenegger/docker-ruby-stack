@@ -42,7 +42,7 @@ start_rack () {
     rack_cid=$(sudo docker run \
         -d \
         `# [commented out] -p 80:80` \
-        -v `readlink -f ./app`:/app \
+        -v `readlink -f ./app-$n`:/app \
         -e "env=$env" \
         -expose 80 \
         -name app-$n \
