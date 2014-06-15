@@ -41,13 +41,13 @@ start_rack () {
     n="$1"; [[ -z "$1" ]] && n=1
     rack_cid=$(sudo docker run \
         -d \
-        `# [commented out] -p 80:80` \
         -v `readlink -f ./app-$n`:/app \
         -e "env=$env" \
+        -e "MONGODB_URI=mongodb://mongo-1.mongo.live.docker:27017" \
         -expose 80 \
         -name app-$n \
         ruby \
-        bash -c -l 'export MONGODB_URI="mongodb://mongo-1.mongo.live.docker:27017"; cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start')
+        bash -c -l 'cd /app && bundle --deployment && bundle exec thin -R config.ru -p 80 start')
     if [ $? -eq 0 ]; then
         export rack_cid="$rack_cid"
         echo "Started app in container [\$rack_cid] $rack_cid".
