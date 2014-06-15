@@ -39,11 +39,12 @@ start_memcached () {
 # rack
 start_rack () {
     n="$1"; [[ -z "$1" ]] && n=1
+    [[ -z $mongo ]] && mongo="mongodb://mongo-1.mongo.live.docker:27017"
     rack_cid=$(sudo docker run \
         -d \
         -v `readlink -f ./app-$n`:/app \
         -e "env=$env" \
-        -e "MONGODB_URI=mongodb://mongo-1.mongo.live.docker:27017" \
+        -e "MONGODB_URI=$mongo" \
         -expose 80 \
         -name app-$n \
         ruby \
